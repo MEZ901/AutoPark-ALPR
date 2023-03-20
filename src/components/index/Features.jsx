@@ -4,7 +4,7 @@ import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import HistoryIcon from '@mui/icons-material/History';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
-import GarageIcon from '@mui/icons-material/Garage';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 
 const Features = () => {
   const features = [
@@ -34,9 +34,9 @@ const Features = () => {
         description: 'Our user-friendly interface makes it easy to reserve a parking spot in advance, so you never have to worry about finding a spot when you arrive.'
     },
     {
-        icon: <GarageIcon color='primary' />,
-        title: 'Large capacity',
-        description: 'Our parking garage has a capacity of up to 500 vehicles, ensuring that there is always space available for you to park.'
+        icon: <SupportAgentIcon color='primary' />,
+        title: '24/7 customer support',
+        description: 'Our support team is available round the clock to help you with any issues or questions you may have.'
     },
   ]; 
 
