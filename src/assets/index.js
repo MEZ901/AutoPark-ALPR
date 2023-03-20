@@ -1,7 +1,7 @@
 import logo from './logo.png';
-import park from './park.jpg';
+import parking from './Parking.svg';
 
 export {
     logo,
-    park,
+    parking,
 };

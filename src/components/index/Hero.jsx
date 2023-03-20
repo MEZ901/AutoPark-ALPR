@@ -1,4 +1,4 @@
-import { park } from "../../assets";
+import { parking } from "../../assets";
 import { Button } from "@mui/material";
 
 const Hero = () => {
@@ -10,7 +10,7 @@ const Hero = () => {
             <Button variant="contained">Register now</Button>
         </div>
         <div className="hidden md:block md:w-1/2">
-            <img src={park} alt="park" />
+            <img src={parking} alt="park" />
         </div>
     </div>
   )
