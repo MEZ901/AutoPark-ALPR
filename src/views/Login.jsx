@@ -52,6 +52,7 @@ const Login = () => {
                                     label="Password" 
                                     variant="filled" 
                                     name="password"
+                                    type="password"
                                     fullWidth
                                     value={values.password}
                                     onChange={handleChange}
