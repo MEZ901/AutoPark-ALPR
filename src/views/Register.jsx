@@ -3,8 +3,23 @@ import GoogleIcon from '@mui/icons-material/Google';
 import Divider from '@mui/material/Divider';    
 import { Link } from "react-router-dom";
 import TextField from '@mui/material/TextField';
+import { useFormik } from "formik";
+import { registerSchema } from "../schemas";
 
-const Register = () => { 
+const Register = () => {
+  const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
+    initialValues: {
+        username: "",
+        email: "",
+        licensePlate: "",
+        password: "",
+        passwordConfirmation: ""
+    },
+    validationSchema: registerSchema,
+    onSubmit: (values) => {
+        console.log(values);
+    }
+  });
   return (
     <section className="min-h-screen py-6 flex flex-col justify-center sm:py-12">
         <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -16,33 +31,99 @@ const Register = () => {
                     <div>
                         <h1 className="text-2xl font-semibold mb-5">Register</h1>
                     </div>
-                    <Button variant="outlined" className="w-full" startIcon={<GoogleIcon />}>Sign up with Google</Button>
+                    <Button
+                        variant="outlined"
+                        className="w-full"
+                        startIcon={<GoogleIcon />}
+                    >
+                        Sign up with Google
+                    </Button>
                     <Divider className="pt-5"> OR </Divider>
-                    <div className="divide-y divide-gray-200">
+                    <form className="divide-y divide-gray-200" onSubmit={handleSubmit}>
                         <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                             <div>
-                                <TextField label="Username" variant="filled" fullWidth />
+                                <TextField
+                                    error={errors.username && touched.username}
+                                    helperText={errors.username && touched.username ? errors.username : null}
+                                    label="Username"
+                                    variant="filled"
+                                    name="username"
+                                    fullWidth
+                                    value={values.username}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
                             </div>
                             <div>
-                                <TextField type="email" label="Email" variant="filled" fullWidth />
+                                <TextField
+                                    error={errors.email && touched.email}
+                                    helperText={errors.email && touched.email ? errors.email : null} 
+                                    type="email" 
+                                    label="Email" 
+                                    variant="filled" 
+                                    name="email" 
+                                    fullWidth 
+                                    value={values.email} 
+                                    onChange={handleChange} 
+                                    onBlur={handleBlur} 
+                                />
                             </div>
                             <div>
-                                <TextField label="License Plate" variant="filled" fullWidth />
+                                <TextField
+                                    error={errors.licensePlate && touched.licensePlate}
+                                    helperText={errors.licensePlate && touched.licensePlate ? errors.licensePlate : null}
+                                    label="License Plate" 
+                                    variant="filled" 
+                                    name="licensePlate" 
+                                    fullWidth 
+                                    value={values.licensePlate} 
+                                    onChange={handleChange} 
+                                    onBlur={handleBlur} 
+                                />
                             </div>
                             <div>
-                                <TextField type="password" label="Password" variant="filled" fullWidth />
+                                <TextField
+                                    error={errors.password && touched.password}
+                                    helperText={errors.password && touched.password ? errors.password : null}
+                                    type="password" 
+                                    label="Password" 
+                                    variant="filled" 
+                                    name="password" 
+                                    fullWidth 
+                                    value={values.password} 
+                                    onChange={handleChange} 
+                                    onBlur={handleBlur} 
+                                />
                             </div>
                             <div>
-                                <TextField type="password" label="Confirm Password" variant="filled" fullWidth />
+                                <TextField
+                                    error={errors.passwordConfirmation && touched.passwordConfirmation}
+                                    helperText={errors.passwordConfirmation && touched.passwordConfirmation ? errors.passwordConfirmation : null}
+                                    type="password" 
+                                    label="Confirm Password" 
+                                    variant="filled" 
+                                    name="passwordConfirmation" 
+                                    fullWidth 
+                                    value={values.passwordConfirmation} 
+                                    onChange={handleChange} 
+                                    onBlur={handleBlur} 
+                                />
                             </div>
                             <div>
-                                <Button variant="contained" color="primary" fullWidth>Register</Button>
+                                <Button
+                                    variant="contained" 
+                                    color="primary" 
+                                    type="submit" 
+                                    fullWidth
+                                >
+                                    Register
+                                </Button>
                             </div>
                             <p className="text-sm font-light text-gray-500">
                                 Already have an account? <Link to="/login" className="font-medium text-primary-600 hover:underline">Login here</Link>
                             </p>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
