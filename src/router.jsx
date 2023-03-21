@@ -7,6 +7,7 @@ import {
 import RootLayout from "./layouts/RootLayout";
 import ErrorPage from "./views/ErrorPage";
 import Index from "./views/Index";
+import Login from "./views/Login";
 import NotFound from "./views/NotFound";
 import Register from "./views/Register";
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter(
             <Route
                 path="register"
                 element={<Register />}
+            />
+            <Route
+                path="login"
+                element={<Login />}
             />
             <Route
                 path="*"
