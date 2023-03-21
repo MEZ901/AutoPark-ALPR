@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import { useFormik } from "formik";
 import { loginSchema } from "../schemas";
+import { auth } from "../config/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = () => {
   const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
@@ -13,8 +15,15 @@ const Login = () => {
         password: ""
     },
     validationSchema: loginSchema,
-    onSubmit: (values) => {
-        console.log(values);
+    onSubmit: async (values) => {
+        try {
+            await signInWithEmailAndPassword(auth, values.email, values.password);
+            console.log("Logged in successfully")
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(`Error ${errorCode}: ${errorMessage}`);
+        }
     }
   });
   return (
