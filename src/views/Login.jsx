@@ -3,8 +3,20 @@ import GoogleIcon from '@mui/icons-material/Google';
 import Divider from '@mui/material/Divider';    
 import { Link } from "react-router-dom";
 import TextField from '@mui/material/TextField';
+import { useFormik } from "formik";
+import { loginSchema } from "../schemas";
 
 const Login = () => {
+  const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
+    initialValues: {
+        email: "",
+        password: ""
+    },
+    validationSchema: loginSchema,
+    onSubmit: (values) => {
+        console.log(values);
+    }
+  });
   return (
     <div className="min-h-screen py-6 flex flex-col justify-center sm:py-12">
         <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -18,22 +30,49 @@ const Login = () => {
                     </div>
                     <Button variant="outlined" className="w-full" startIcon={<GoogleIcon />}>Login with Google</Button>
                     <Divider className="pt-5"> OR </Divider>
-                    <div className="divide-y divide-gray-200">
+                    <form className="divide-y divide-gray-200" onSubmit={handleSubmit}>
                         <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                             <div>
-                                <TextField label="Email" variant="filled" fullWidth />
+                                <TextField
+                                    error={errors.email && touched.email}
+                                    helperText={errors.email && touched.email ? errors.email : null}
+                                    label="Email" 
+                                    variant="filled" 
+                                    name="email"
+                                    fullWidth 
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
                             </div>
                             <div>
-                                <TextField label="Password" variant="filled" fullWidth />
+                                <TextField 
+                                    error={errors.password && touched.password}
+                                    helperText={errors.password && touched.password ? errors.password : null}
+                                    label="Password" 
+                                    variant="filled" 
+                                    name="password"
+                                    fullWidth
+                                    value={values.password}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
                             </div>
                             <div>
-                                <Button variant="contained" color="primary" fullWidth>Login</Button>
+                                <Button 
+                                    type="submit"
+                                    variant="contained" 
+                                    color="primary" 
+                                    fullWidth
+                                >
+                                    Login
+                                </Button>
                             </div>
                             <p className="text-sm font-light text-gray-500">
                                 Don't have an account? <Link to="/register" className="font-medium text-primary-600 hover:underline">Register here</Link>
                             </p>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
