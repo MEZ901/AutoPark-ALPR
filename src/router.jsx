@@ -25,7 +25,7 @@ const router = createBrowserRouter(
         <Route
             path="/"
             element={<RootLayout />} 
-            ErrorElement={<ErrorPage />}
+            errorElement={<ErrorPage />}
         >
             <Route
                 index

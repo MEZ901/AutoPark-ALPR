@@ -22,7 +22,7 @@ import { logout } from "../../features/auth";
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector(state => state.auth.user);
+  const { user } = useSelector(state => state.auth);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
