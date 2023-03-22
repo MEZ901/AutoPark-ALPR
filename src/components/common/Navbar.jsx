@@ -1,9 +1,4 @@
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-import { logo } from "../../assets";
-import { useSelector } from "react-redux";
-import { useState } from "react";
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -13,14 +8,20 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-
+import { logo } from "../../assets";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
+import { signOut } from "firebase/auth";
+import { auth } from "../../config/firebase";
+import { logout } from "../../features/auth";
 
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -30,6 +31,17 @@ const Navbar = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleLogout = async () => {
+    console.log("hh")
+    try {
+        await signOut(auth);
+        dispatch(logout());
+        localStorage.removeItem("user");
+        navigate("/login");
+    } catch (error) {
+        console.log(error)
+    }
   };
 
   return (
@@ -41,7 +53,7 @@ const Navbar = () => {
             {user ? (
               <div className="flex md:order-2">
                 <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-                  <Typography sx={{ minWidth: 75 }}>Profile</Typography>
+                  <Typography sx={{ mr: 1 }}>{ user.username }</Typography>
                   <Tooltip title="Account settings">
                     <IconButton
                       onClick={handleClick}
@@ -50,7 +62,7 @@ const Navbar = () => {
                       aria-haspopup="true"
                       aria-expanded={open ? 'true' : undefined}
                     >
-                      <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                      <Avatar sx={{ width: 32, height: 32, textTransform: 'uppercase', bgcolor: "#3996B8" }}>{ user.username.charAt(0) }</Avatar>
                     </IconButton>
                   </Tooltip>
                 </Box>
@@ -90,7 +102,7 @@ const Navbar = () => {
                   anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
                   <MenuItem onClick={handleClose}>
-                    <Avatar sx={{ width: 32, height: 32 }}>M</Avatar> Profile
+                    <Avatar sx={{ width: 32, height: 32, textTransform: 'uppercase', bgcolor: "#3996B8" }}>{ user.username.charAt(0) }</Avatar> Profile
                   </MenuItem>
                   <Divider />
                   <MenuItem onClick={handleClose}>
@@ -99,7 +111,7 @@ const Navbar = () => {
                     </ListItemIcon>
                     Settings
                   </MenuItem>
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                       <Logout fontSize="small" />
                     </ListItemIcon>
