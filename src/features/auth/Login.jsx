@@ -1,14 +1,19 @@
 import { Button } from "@mui/material";
 import GoogleIcon from '@mui/icons-material/Google';
 import Divider from '@mui/material/Divider';    
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import { useFormik } from "formik";
 import { loginSchema } from "../../schemas";
 import { auth } from "../../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { login } from "./authSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
     initialValues: {
         email: "",
@@ -17,8 +22,10 @@ const Login = () => {
     validationSchema: loginSchema,
     onSubmit: async (values) => {
         try {
-            await signInWithEmailAndPassword(auth, values.email, values.password);
-            console.log("Logged in successfully")
+            const userCredentials = await signInWithEmailAndPassword(auth, values.email, values.password);
+            dispatch(login(userCredentials.user));
+            localStorage.setItem("user", JSON.stringify(userCredentials.user));
+            navigate("/dashboard");
         } catch (error) {
             const errorCode = error.code;
             const errorMessage = error.message;
@@ -26,6 +33,7 @@ const Login = () => {
         }
     }
   });
+
   return (
     <div className="min-h-screen py-6 flex flex-col justify-center sm:py-12">
         <div className="relative py-3 sm:max-w-xl sm:mx-auto">
