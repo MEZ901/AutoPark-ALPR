@@ -9,7 +9,7 @@ import { auth, db, googleProvider } from "../../config/firebase";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { login } from "./authSlice";
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, setDoc } from "firebase/firestore";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -53,9 +53,21 @@ const Login = () => {
     const { uid } = userCredentials.user;
     const docRef = doc(db, "users", uid);
     const user = await getDoc(docRef);
-    dispatch(login({ uid, ...user.data() }));
-    localStorage.setItem("user", JSON.stringify({ uid, ...user.data() }));
-    navigate("/dashboard");
+    if (user.exists()) {
+        dispatch(login({ uid, ...user.data() }));
+        localStorage.setItem("user", JSON.stringify({ uid, ...user.data() }));
+        navigate("/dashboard");
+    } else {
+        const user = {
+            username: userCredentials.user.displayName,
+            email: userCredentials.user.email,
+            licensePlate: ""
+        }
+        await setDoc(doc(db, "users", uid), user);
+        dispatch(login({ uid, ...user }));
+        localStorage.setItem("user", JSON.stringify({ uid, ...user }));
+        navigate("/dashboard");
+    }
   };
 
   return (
