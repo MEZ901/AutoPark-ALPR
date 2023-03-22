@@ -1,12 +1,20 @@
 import { Button } from "@mui/material";
 import GoogleIcon from '@mui/icons-material/Google';
 import Divider from '@mui/material/Divider';    
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import { useFormik } from "formik";
 import { registerSchema } from "../../schemas";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
+import { auth, db } from "../../config/firebase";
+import { useDispatch } from "react-redux";
+import { login } from "./authSlice";
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
     initialValues: {
         username: "",
@@ -16,8 +24,22 @@ const Register = () => {
         passwordConfirmation: ""
     },
     validationSchema: registerSchema,
-    onSubmit: (values) => {
-        console.log(values);
+    onSubmit: async (values) => {
+        try {
+            const userCredentials = await createUserWithEmailAndPassword(auth, values.email, values.password);
+            await setDoc(doc(db, "users", userCredentials.user.uid), {
+                username: values.username,
+                email: values.email,
+                licensePlate: values.licensePlate
+            });
+            dispatch(login(userCredentials.user));
+            localStorage.setItem("user", JSON.stringify(userCredentials.user));
+            navigate("/dashboard");
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(`Error ${errorCode}: ${errorMessage}`);
+        }
     }
   });
   return (
