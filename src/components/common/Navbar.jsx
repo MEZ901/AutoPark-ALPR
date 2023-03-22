@@ -33,7 +33,6 @@ const Navbar = () => {
     setAnchorEl(null);
   };
   const handleLogout = async () => {
-    console.log("hh")
     try {
         await signOut(auth);
         dispatch(logout());

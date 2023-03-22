@@ -32,9 +32,19 @@ const Login = () => {
             localStorage.setItem("user", JSON.stringify({ uid, ...user.data() }));
             navigate("/dashboard");
         } catch (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(`Error ${errorCode}: ${errorMessage}`);
+            switch (error.code) {
+                case "auth/user-not-found":
+                    errors.email = "User not found";
+                    break;
+                case "auth/wrong-password":
+                    errors.password = "Wrong password";
+                    break;
+                default:
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(`Error ${errorCode}: ${errorMessage}`);
+                    break;
+            }
         }
     }
   });

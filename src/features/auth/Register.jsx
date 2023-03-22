@@ -38,9 +38,16 @@ const Register = () => {
             localStorage.setItem("user", JSON.stringify({ uid, ...user }));
             navigate("/dashboard");
         } catch (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(`Error ${errorCode}: ${errorMessage}`);
+            switch (error.code) {
+                case "auth/email-already-in-use":
+                    errors.email = "Email already in use";
+                    break;
+                default:
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(`Error ${errorCode}: ${errorMessage}`);
+                    break;
+            }
         }
     }
   });
