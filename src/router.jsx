@@ -3,13 +3,15 @@ import {
     createRoutesFromElements,
     Route,
 } from "react-router-dom";
+import {
+    LandingPage,
+    ErrorPage,
+    NotFound,
+    AdminDashboard,
+} from "./views";
 import { Login, Register } from "./features/auth";
-import RootLayout from "./layouts/RootLayout";
-import AdminDashboard from "./views/AdminDashboard";
-import ErrorPage from "./views/ErrorPage";
-import Index from "./views/Index";
-import NotFound from "./views/NotFound";
 import { PrivateRoute } from "./features/auth";
+import RootLayout from "./layouts/RootLayout";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -20,20 +22,32 @@ const router = createBrowserRouter(
         >
             <Route
                 index
-                element={<Index />}
+                element={
+                    <PrivateRoute type="guest">
+                        <LandingPage />
+                    </PrivateRoute>
+                }
             />
             <Route
                 path="register"
-                element={<Register />}
+                element={
+                    <PrivateRoute type="guest">
+                        <Register />
+                    </PrivateRoute>
+                }
             />
             <Route
                 path="login"
-                element={<Login />}
+                element={
+                    <PrivateRoute type="guest">
+                        <Login />
+                    </PrivateRoute>
+                }
             />
             <Route
                 path="dashboard"
                 element={
-                    <PrivateRoute>
+                    <PrivateRoute type="auth">
                         <AdminDashboard />
                     </PrivateRoute>
                 }
