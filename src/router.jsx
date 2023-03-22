@@ -9,6 +9,7 @@ import {
     ErrorPage,
     NotFound,
     AdminDashboard,
+    Home
 } from "./views";
 
 import {
@@ -55,6 +56,14 @@ const router = createBrowserRouter(
                 element={
                     <ProtectedRoute type="auth">
                         <AdminDashboard />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="home"
+                element={
+                    <ProtectedRoute type="auth">
+                        <Home />
                     </ProtectedRoute>
                 }
             />

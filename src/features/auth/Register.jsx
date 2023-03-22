@@ -38,7 +38,7 @@ const Register = () => {
             await setDoc(doc(db, "users", uid), user);
             dispatch(login({ uid, ...user }));
             localStorage.setItem("user", JSON.stringify({ uid, ...user }));
-            navigate("/dashboard");
+            navigate("/home");
         } catch (error) {
             switch (error.code) {
                 case "auth/email-already-in-use":
@@ -63,7 +63,7 @@ const Register = () => {
         if (user.exists()) {
             dispatch(login({ uid, ...user.data() }));
             localStorage.setItem("user", JSON.stringify({ uid, ...user.data() }));
-            navigate("/dashboard");
+            navigate("/home");
         } else {
             const user = {
                 username: userCredentials.user.displayName,
@@ -73,7 +73,7 @@ const Register = () => {
             await setDoc(doc(db, "users", uid), user);
             dispatch(login({ uid, ...user }));
             localStorage.setItem("user", JSON.stringify({ uid, ...user }));
-            navigate("/dashboard");
+            navigate("/home");
         }
     } catch (error) {
         const errorCode = error.code;

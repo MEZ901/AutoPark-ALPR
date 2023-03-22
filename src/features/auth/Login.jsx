@@ -29,7 +29,7 @@ const Login = () => {
             const user = await getDoc(docRef);
             dispatch(login({ uid, ...user.data() }));
             localStorage.setItem("user", JSON.stringify({ uid, ...user.data() }));
-            navigate("/dashboard");
+            navigate("/home");
         } catch (error) {
             switch (error.code) {
                 case "auth/user-not-found":
@@ -56,7 +56,7 @@ const Login = () => {
     if (user.exists()) {
         dispatch(login({ uid, ...user.data() }));
         localStorage.setItem("user", JSON.stringify({ uid, ...user.data() }));
-        navigate("/dashboard");
+        navigate("/home");
     } else {
         const user = {
             username: userCredentials.user.displayName,
@@ -66,7 +66,7 @@ const Login = () => {
         await setDoc(doc(db, "users", uid), user);
         dispatch(login({ uid, ...user }));
         localStorage.setItem("user", JSON.stringify({ uid, ...user }));
-        navigate("/dashboard");
+        navigate("/home");
     }
   };
 

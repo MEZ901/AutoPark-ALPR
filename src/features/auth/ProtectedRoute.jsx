@@ -14,7 +14,7 @@ const ProtectedRoute = ({ type, children }) => {
       return !user ? (
         children
       ) : (
-        <Navigate to="/dashboard" replace />
+        <Navigate to="/home" replace />
       );
     default:
       return null;
