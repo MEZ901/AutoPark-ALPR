@@ -6,10 +6,12 @@ import TextField from '@mui/material/TextField';
 import { useFormik } from "formik";
 import { registerSchema } from "../../schemas";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
 import { useDispatch } from "react-redux";
 import { login } from "./authSlice";
+import { signInWithPopup } from "firebase/auth";
+import { googleProvider } from "../../config/firebase";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -51,6 +53,35 @@ const Register = () => {
         }
     }
   });
+
+  const signUpWithGoogle = async () => {
+    try {
+        const userCredentials = await signInWithPopup(auth, googleProvider);
+        const { uid } = userCredentials.user;
+        const docRef = doc(db, "users", uid);
+        const user = await getDoc(docRef);
+        if (user.exists()) {
+            dispatch(login({ uid, ...user.data() }));
+            localStorage.setItem("user", JSON.stringify({ uid, ...user.data() }));
+            navigate("/dashboard");
+        } else {
+            const user = {
+                username: userCredentials.user.displayName,
+                email: userCredentials.user.email,
+                licensePlate: ""
+            }
+            await setDoc(doc(db, "users", uid), user);
+            dispatch(login({ uid, ...user }));
+            localStorage.setItem("user", JSON.stringify({ uid, ...user }));
+            navigate("/dashboard");
+        }
+    } catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(`Error ${errorCode}: ${errorMessage}`);
+    }
+}
+
   return (
     <section className="min-h-screen py-6 flex flex-col justify-center sm:py-12">
         <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -66,6 +97,7 @@ const Register = () => {
                         variant="outlined"
                         className="w-full"
                         startIcon={<GoogleIcon />}
+                        onClick={signUpWithGoogle}
                     >
                         Sign up with Google
                     </Button>

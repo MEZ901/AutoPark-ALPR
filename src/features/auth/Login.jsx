@@ -5,12 +5,11 @@ import { Link, useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import { useFormik } from "formik";
 import { loginSchema } from "../../schemas";
-import { auth } from "../../config/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db, googleProvider } from "../../config/firebase";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { login } from "./authSlice";
 import { getDoc, doc } from "firebase/firestore";
-import { db } from "../../config/firebase";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -48,6 +47,16 @@ const Login = () => {
         }
     }
   });
+ 
+  const signInWithGoogle = async () => {
+    const userCredentials = await signInWithPopup(auth, googleProvider);
+    const { uid } = userCredentials.user;
+    const docRef = doc(db, "users", uid);
+    const user = await getDoc(docRef);
+    dispatch(login({ uid, ...user.data() }));
+    localStorage.setItem("user", JSON.stringify({ uid, ...user.data() }));
+    navigate("/dashboard");
+  };
 
   return (
     <div className="min-h-screen py-6 flex flex-col justify-center sm:py-12">
@@ -60,7 +69,14 @@ const Login = () => {
                     <div>
                         <h1 className="text-2xl font-semibold mb-5">Login</h1>
                     </div>
-                    <Button variant="outlined" className="w-full" startIcon={<GoogleIcon />}>Login with Google</Button>
+                    <Button
+                        variant="outlined"
+                        className="w-full"
+                        startIcon={<GoogleIcon />}
+                        onClick={signInWithGoogle}
+                    >
+                        Login with Google
+                    </Button>
                     <Divider className="pt-5"> OR </Divider>
                     <form className="divide-y divide-gray-200" onSubmit={handleSubmit}>
                         <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
