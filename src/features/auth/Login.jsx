@@ -4,8 +4,8 @@ import Divider from '@mui/material/Divider';
 import { Link } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import { useFormik } from "formik";
-import { loginSchema } from "../schemas";
-import { auth } from "../config/firebase";
+import { loginSchema } from "../../schemas";
+import { auth } from "../../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = () => {

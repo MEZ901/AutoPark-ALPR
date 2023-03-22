@@ -4,7 +4,7 @@ import Divider from '@mui/material/Divider';
 import { Link } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import { useFormik } from "formik";
-import { registerSchema } from "../schemas";
+import { registerSchema } from "../../schemas";
 
 const Register = () => {
   const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
