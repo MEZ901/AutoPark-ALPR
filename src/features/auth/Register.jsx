@@ -27,13 +27,15 @@ const Register = () => {
     onSubmit: async (values) => {
         try {
             const userCredentials = await createUserWithEmailAndPassword(auth, values.email, values.password);
-            await setDoc(doc(db, "users", userCredentials.user.uid), {
+            const { uid } = userCredentials.user;
+            const user = {
                 username: values.username,
                 email: values.email,
                 licensePlate: values.licensePlate
-            });
-            dispatch(login(userCredentials.user));
-            localStorage.setItem("user", JSON.stringify(userCredentials.user));
+            }
+            await setDoc(doc(db, "users", uid), user);
+            dispatch(login({ uid, ...user }));
+            localStorage.setItem("user", JSON.stringify({ uid, ...user }));
             navigate("/dashboard");
         } catch (error) {
             const errorCode = error.code;

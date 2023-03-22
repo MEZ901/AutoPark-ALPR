@@ -9,6 +9,8 @@ import { auth } from "../../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { login } from "./authSlice";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../../config/firebase";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -23,8 +25,11 @@ const Login = () => {
     onSubmit: async (values) => {
         try {
             const userCredentials = await signInWithEmailAndPassword(auth, values.email, values.password);
-            dispatch(login(userCredentials.user));
-            localStorage.setItem("user", JSON.stringify(userCredentials.user));
+            const { uid } = userCredentials.user;
+            const docRef = doc(db, "users", uid);
+            const user = await getDoc(docRef);
+            dispatch(login({ uid, ...user.data() }));
+            localStorage.setItem("user", JSON.stringify({ uid, ...user.data() }));
             navigate("/dashboard");
         } catch (error) {
             const errorCode = error.code;
