@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const PrivateRoute = ({ type, children }) => {
+const ProtectedRoute = ({ type, children }) => {
   const user = useSelector(state => state.auth.user); 
   switch (type) {
     case "auth":
@@ -21,4 +21,4 @@ const PrivateRoute = ({ type, children }) => {
   }
 };
 
-export default PrivateRoute;
+export default ProtectedRoute;

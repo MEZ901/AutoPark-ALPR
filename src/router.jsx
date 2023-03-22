@@ -3,14 +3,20 @@ import {
     createRoutesFromElements,
     Route,
 } from "react-router-dom";
+
 import {
     LandingPage,
     ErrorPage,
     NotFound,
     AdminDashboard,
 } from "./views";
-import { Login, Register } from "./features/auth";
-import { PrivateRoute } from "./features/auth";
+
+import {
+    Login,
+    Register,
+    ProtectedRoute
+} from "./features/auth";
+
 import RootLayout from "./layouts/RootLayout";
 
 const router = createBrowserRouter(
@@ -23,33 +29,33 @@ const router = createBrowserRouter(
             <Route
                 index
                 element={
-                    <PrivateRoute type="guest">
+                    <ProtectedRoute type="guest">
                         <LandingPage />
-                    </PrivateRoute>
+                    </ProtectedRoute>
                 }
             />
             <Route
                 path="register"
                 element={
-                    <PrivateRoute type="guest">
+                    <ProtectedRoute type="guest">
                         <Register />
-                    </PrivateRoute>
+                    </ProtectedRoute>
                 }
             />
             <Route
                 path="login"
                 element={
-                    <PrivateRoute type="guest">
+                    <ProtectedRoute type="guest">
                         <Login />
-                    </PrivateRoute>
+                    </ProtectedRoute>
                 }
             />
             <Route
                 path="dashboard"
                 element={
-                    <PrivateRoute type="auth">
+                    <ProtectedRoute type="auth">
                         <AdminDashboard />
-                    </PrivateRoute>
+                    </ProtectedRoute>
                 }
             />
             
