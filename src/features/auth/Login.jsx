@@ -4,12 +4,12 @@ import Divider from '@mui/material/Divider';
 import { Link, useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { getDoc, doc, setDoc } from "firebase/firestore";
 import { loginSchema } from "../../schemas";
 import { auth, db, googleProvider } from "../../config/firebase";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { useDispatch } from "react-redux";
 import { login } from "./authSlice";
-import { getDoc, doc, setDoc } from "firebase/firestore";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -59,7 +59,8 @@ const Login = () => {
         const user = {
             username: userCredentials.user.displayName,
             email: userCredentials.user.email,
-            licensePlate: ""
+            licensePlate: null,
+            role: "user"
         }
         await setDoc(doc(db, "users", uid), user);
         dispatch(login({ uid, ...user }));

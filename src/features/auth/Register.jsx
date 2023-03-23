@@ -1,17 +1,15 @@
 import { Button } from "@mui/material";
 import GoogleIcon from '@mui/icons-material/Google';
 import Divider from '@mui/material/Divider';    
-import { Link, useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
-import { useFormik } from "formik";
-import { registerSchema } from "../../schemas";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc, getDoc } from "firebase/firestore";
-import { auth, db } from "../../config/firebase";
 import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { setDoc, doc, getDoc } from "firebase/firestore";
+import { registerSchema } from "../../schemas";
+import { auth, db, googleProvider } from "../../config/firebase";
 import { login } from "./authSlice";
-import { signInWithPopup } from "firebase/auth";
-import { googleProvider } from "../../config/firebase";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -33,7 +31,8 @@ const Register = () => {
             const user = {
                 username: values.username,
                 email: values.email,
-                licensePlate: values.licensePlate
+                licensePlate: values.licensePlate,
+                role: "user"
             }
             await setDoc(doc(db, "users", uid), user);
             dispatch(login({ uid, ...user }));
@@ -45,9 +44,7 @@ const Register = () => {
                     errors.email = "Email already in use";
                     break;
                 default:
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    console.log(`Error ${errorCode}: ${errorMessage}`);
+                    console.log(`Error ${error.code}: ${error.message}`);
                     break;
             }
         }
@@ -68,7 +65,8 @@ const Register = () => {
             const user = {
                 username: userCredentials.user.displayName,
                 email: userCredentials.user.email,
-                licensePlate: ""
+                licensePlate: null,
+                role: "user"
             }
             await setDoc(doc(db, "users", uid), user);
             dispatch(login({ uid, ...user }));
