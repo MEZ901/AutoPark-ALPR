@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { DataGrid, GridColumnMenu } from '@mui/x-data-grid';
 
 const CustomColumnMenu = (props) => {

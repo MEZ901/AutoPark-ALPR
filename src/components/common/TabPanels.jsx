@@ -1,14 +1,29 @@
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const TabPanels = () => {
   const { role } = useSelector((state) => state.auth.user);
-  const [value, setValue] = useState(1);
   const navigate = useNavigate();
+  let initialVal;
+  switch (window.location.pathname) {
+    case '/home':
+      initialVal = 1;
+      break;
+    case '/home/log':
+      initialVal = 2;
+      break;
+    case '/home/dashboard':
+      initialVal = 3;
+      break;
+    default:
+      initialVal = 1;
+      break;
+  }
+  const [value, setValue] = useState(initialVal);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
