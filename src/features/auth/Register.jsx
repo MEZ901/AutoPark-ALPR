@@ -76,9 +76,7 @@ const Register = () => {
             navigate("/home");
         }
     } catch (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(`Error ${errorCode}: ${errorMessage}`);
+        console.log(`Error ${error.code}: ${error.message}`);
     }
 }
 
