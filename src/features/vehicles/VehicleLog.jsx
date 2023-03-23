@@ -4,8 +4,7 @@ import { getData } from ".";
 
 const VehicleLog = () => {
   const vehicleLog = useSelector((state) => state.vehicles.vehicleLog);
-  vehicleLog.length == 0 ? getData('log') : null;
-
+  
   return (
     <div className="mt-5">
         <UserTable vehicles={vehicleLog} col={{ field: 'exitTime', headerName: 'Exit Time', flex: 0.5 }} />

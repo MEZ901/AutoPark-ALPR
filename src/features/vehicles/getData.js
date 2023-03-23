@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { setAllVehicles, setCurrentVehicles, setVehicleLog } from "./vehiclesSlice";
@@ -6,7 +5,7 @@ import { db } from "../../config/firebase";
 
 
 const parseDate = (date) => (
-    date
+  date
   .split("T")
   .shift()
   .split("-")
@@ -17,7 +16,7 @@ const parseDate = (date) => (
   .split("T")
   .pop()
   .slice(0, -1)
-  );
+);
   
 const getData = async (type) => {
   const { licensePlate } = useSelector((state) => state.auth.user);
