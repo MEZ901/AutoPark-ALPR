@@ -3,8 +3,8 @@ import { UserTable } from "../../components/tables";
 import { getData } from ".";
 
 const CurrentVehicles = () => {
-  getData('current');
   const currentVehiclesList = useSelector((state) => state.vehicles.currentVehicles);
+  currentVehiclesList.length == 0 ? getData('current') : null;
   
   return (
     <div className="mt-5">
