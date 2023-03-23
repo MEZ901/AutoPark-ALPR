@@ -75,7 +75,11 @@ const router = createBrowserRouter(
                 />
                 <Route
                     path="dashboard"
-                    element={<AdminDashboard />}
+                    element={
+                        <ProtectedRoute type="admin">
+                            <AdminDashboard />
+                        </ProtectedRoute>
+                    }
                 />
             </Route>
             
