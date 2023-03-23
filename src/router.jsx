@@ -8,8 +8,7 @@ import {
     LandingPage,
     ErrorPage,
     NotFound,
-    AdminDashboard,
-    Home
+    AdminDashboard
 } from "./views";
 
 import {
@@ -17,6 +16,11 @@ import {
     Register,
     ProtectedRoute
 } from "./features/auth";
+
+import {
+    CurrentVehicles,
+    VehicleLog
+} from "./features/vehicles";
 
 import RootLayout from "./layouts/RootLayout";
 import HomeLayout from "./layouts/HomeLayout";
@@ -63,7 +67,11 @@ const router = createBrowserRouter(
             >
                 <Route
                     index
-                    element={<Home />}
+                    element={<CurrentVehicles />}
+                />
+                <Route
+                    path="log"
+                    element={<VehicleLog />}
                 />
                 <Route
                     path="dashboard"

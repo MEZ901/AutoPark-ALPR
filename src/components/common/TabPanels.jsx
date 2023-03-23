@@ -12,7 +12,7 @@ const TabPanels = () => {
     setValue(newValue);
     switch (newValue) {
       case 1:
-        navigate('/home/vehicles');
+        navigate('/home');
         break;
       case 2:
         navigate('/home/log');
