@@ -1,6 +1,6 @@
-import { AdminTable } from "../components/tables";
 import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
+import { AdminTable } from "../../components/tables";
 
 const AdminDashboard = () => {
   const allVehiclesList = useSelector((state) => state.vehicles.allVehicles);

@@ -7,8 +7,7 @@ import {
 import {
     LandingPage,
     ErrorPage,
-    NotFound,
-    AdminDashboard
+    NotFound
 } from "./views";
 
 import {
@@ -22,6 +21,7 @@ import {
     VehicleLog
 } from "./features/vehicles";
 
+import { AdminDashboard } from "./features/admin";
 import RootLayout from "./layouts/RootLayout";
 import HomeLayout from "./layouts/HomeLayout";
 
