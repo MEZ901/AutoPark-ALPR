@@ -43,7 +43,7 @@ const TabPanels = () => {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange}>
+        <Tabs value={value} onChange={handleChange} variant="scrollable">
           <Tab value={1} label="The current vehicles in the garage" />
           <Tab value={2} label="My log" />
           {role === 'admin' && <Tab value={3} label="Dashboard" />}

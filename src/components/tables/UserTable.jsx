@@ -12,9 +12,9 @@ const CustomColumnMenu = (props) => {
 }
 
 const columns = [
-  { field: 'id', headerName: 'ID', flex: 0.5 },
-  { field: 'licensePlate', headerName: 'License Plate', flex: 0.5 },
-  { field: 'entryTime', headerName: 'Entry Time', flex: 0.5 },
+  { field: 'id', headerName: 'ID', minWidth: 50 },
+  { field: 'licensePlate', headerName: 'License Plate', minWidth: 250 },
+  { field: 'entryTime', headerName: 'Entry Time', flex: 0.5, minWidth: 250 },
 ];
 
 const UserTable = ({ vehicles, col}) => {

@@ -7,7 +7,7 @@ const VehicleLog = () => {
   
   return (
     <div className="mt-5">
-        <UserTable vehicles={vehicleLog} col={{ field: 'exitTime', headerName: 'Exit Time', flex: 0.5 }} />
+        <UserTable vehicles={vehicleLog} col={{ field: 'exitTime', headerName: 'Exit Time', flex: 0.5, minWidth: 250 }} />
     </div>
   )
 }
