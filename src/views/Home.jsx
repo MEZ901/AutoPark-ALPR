@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { UserTable } from "../features/tables";
+import { UserTable } from "../components/tables";
 import { db } from "../config/firebase";
 import { getDocs, collection, query, where } from "firebase/firestore";
 
@@ -60,20 +60,19 @@ const Home = () => {
     }
   };
 
-  getVehicles('current');
-  getVehicles('log');
+  useMemo(() => (
+    getVehicles('current')
+  ), [currentVehicles, myVehicleLog]);
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-center mb-5">Welcome { user.username }</h1>
-      <div>
-        <h2 className="text-xl font-medium text-center mb-5">The current vehicles in the garage:</h2>
+      <div className="mt-5">
         <UserTable vehicles={currentVehicles} />
       </div>
-      <div>
+      {/* <div>
         <h2 className="text-xl font-medium text-center my-5">the log of your vehicle’s entries and exits:</h2>
         <UserTable vehicles={myVehicleLog} col={{ field: 'exitTime', headerName: 'Exit Time', flex: 0.5 }} />
-      </div>
+      </div> */}
     </div>
   )
 }

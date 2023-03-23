@@ -1,7 +1,4 @@
-import Features from "../components/landing-page/Features";
-import Footer from "../components/landing-page/Footer";
-import Hero from "../components/landing-page/Hero";
-import Statistics from "../components/landing-page/Statistics";
+import { Hero, Features, Statistics, Footer } from '../components/landing-page';
 
 const LandingPage = () => {
   return (

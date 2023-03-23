@@ -19,6 +19,7 @@ import {
 } from "./features/auth";
 
 import RootLayout from "./layouts/RootLayout";
+import HomeLayout from "./layouts/HomeLayout";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -51,22 +52,24 @@ const router = createBrowserRouter(
                     </ProtectedRoute>
                 }
             />
-            <Route
-                path="dashboard"
-                element={
-                    <ProtectedRoute type="auth">
-                        <AdminDashboard />
-                    </ProtectedRoute>
-                }
-            />
+            
             <Route
                 path="home"
                 element={
                     <ProtectedRoute type="auth">
-                        <Home />
+                        <HomeLayout />
                     </ProtectedRoute>
                 }
-            />
+            >
+                <Route
+                    index
+                    element={<Home />}
+                />
+                <Route
+                    path="dashboard"
+                    element={<AdminDashboard />}
+                />
+            </Route>
             
             <Route
                 path="*"
