@@ -11,7 +11,7 @@ import { db } from '../../config/firebase';
 import { vehicleSchema } from '../../schemas';
 import { createModalToggle } from '.';
 import { getData } from '../vehicles';
-import { ModalLayout } from '../../components/common';
+import { ModalLayout } from '../../components/admin-dashboard';
 
 const CreateModal = () => {
   const dispatch = useDispatch();

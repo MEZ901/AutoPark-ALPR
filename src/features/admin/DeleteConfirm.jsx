@@ -5,7 +5,7 @@ import { doc, deleteDoc } from 'firebase/firestore';
 import { deleteConfirmToggle } from '.';
 import { db } from '../../config/firebase';
 import { getData } from '../vehicles';
-import { ModalLayout } from '../../components/common';
+import { ModalLayout } from '../../components/admin-dashboard';
 
 const DeleteConfirm = () => {
   const dispatch = useDispatch();
