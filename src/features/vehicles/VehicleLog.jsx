@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { UserTable } from "../../components/tables";
-import { getData } from ".";
 
 const VehicleLog = () => {
   const vehicleLog = useSelector((state) => state.vehicles.vehicleLog);

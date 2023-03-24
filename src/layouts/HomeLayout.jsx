@@ -1,12 +1,12 @@
 import { TabPanels } from "../components/common";
 import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getData } from "../features/vehicles";
 
 const HomeLayout = () => {
-  getData('all');
-  getData('current');
-  getData('log');
+  const { licensePlate } = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  getData(licensePlate, dispatch);
   return (
     <div>
         <div>

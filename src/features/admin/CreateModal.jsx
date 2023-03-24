@@ -9,16 +9,18 @@ import { useFormik } from 'formik';
 import dayjs from 'dayjs';
 import { vehicleSchema } from '../../schemas';
 import { createModalToggle } from '.';
-import { getDoc, doc, collection, addDoc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from '../../config/firebase';
+import { getData } from '../vehicles'
 
 const CreateModal = () => {
   const mdScreen = useMediaQuery('(min-width: 768px)');
   const dispatch = useDispatch();
   const open = useSelector((state) => state.admin.createModal);
+  const { licensePlate } = useSelector((state) => state.auth.user);
   const [exitErr, setExitErr] = useState(false)
   const handleClose = () => dispatch(createModalToggle());
-  const vehicleCollectionRef = collection(db, "Vehicles");
+  const vehicleCollectionRef = collection(db, "vehicles");
 
   const style = {
     position: 'absolute',
@@ -36,13 +38,15 @@ const CreateModal = () => {
   const { values, errors, touched, handleChange, handleSubmit, handleBlur, setFieldValue } = useFormik({
     initialValues: {
         licensePlate: "",
-        entryTime: "",
-        exitTime: "",
+        timeIn: "",
+        timeOut: null,
     },
     validationSchema: vehicleSchema,
     onSubmit: async (values) => {
-        if(exitErr) return;
-        console.log(values);
+      if(exitErr) return;
+      await addDoc(vehicleCollectionRef, values);
+      handleClose();
+      getData(licensePlate, dispatch);
     }
   });
 
@@ -65,7 +69,7 @@ const CreateModal = () => {
             <Box sx={style}>
                 <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5">
                     <h3 className="text-lg font-semibold text-gray-900">
-                        Add Vehicle
+                      Add Vehicle
                     </h3>
                 </div>
                 <form onSubmit={handleSubmit}>
@@ -88,21 +92,21 @@ const CreateModal = () => {
                                 <DateTimePicker
                                     slotProps={{
                                         textField: {
-                                            error: errors.entryTime && touched.entryTime,
-                                            helperText: errors.entryTime && touched.entryTime ? errors.entryTime : null,
+                                            error: errors.timeIn && touched.timeIn,
+                                            helperText: errors.timeIn && touched.timeIn ? errors.timeIn : null,
                                         },
                                     }}
                                     label="Entry Date and Time"
-                                    name='entryTime'
-                                    onChange={(value) => { setFieldValue('entryTime', value.toISOString()) }}
+                                    name='timeIn'
+                                    onChange={(value) => { setFieldValue('timeIn', value.toISOString()) }}
                                     onBlur={handleBlur}
                                 />
                                 <DateTimePicker
                                     onError={(newError) => newError ? setExitErr(true) : setExitErr(false)}
-                                    minDateTime={dayjs(values.entryTime)}
+                                    minDateTime={dayjs(values.timeIn)}
                                     label="Exit Date and Time"
-                                    name='exitTime'
-                                    onChange={(value) => { setFieldValue('exitTime', value.toISOString()) }}
+                                    name='timeOut'
+                                    onChange={(value) => { setFieldValue('timeOut', value.toISOString()) }}
                                     onBlur={handleBlur}
                                 />               
                             </LocalizationProvider>
