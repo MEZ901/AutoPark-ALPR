@@ -71,6 +71,7 @@ const CreateModal = () => {
                 <DateTimePicker
                   onError={(newError) => newError ? setExitErr(true) : setExitErr(false)}
                   minDateTime={dayjs(values.timeIn)}
+                  maxDateTime={dayjs()}
                   label="Exit Date and Time"
                   name='timeOut'
                   onChange={(value) => { setFieldValue('timeOut', value.toISOString()) }}
