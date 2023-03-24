@@ -1,21 +1,22 @@
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import TextField from '@mui/material/TextField';
-import { useSelector, useDispatch } from 'react-redux';
-import { createModalToggle } from '.';
+import { Button, Box, Backdrop, Modal, Fade, TextField } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { Button } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { useFormik } from 'formik';
+import dayjs from 'dayjs';
+import { vehicleSchema } from '../../schemas';
+import { createModalToggle } from '.';
+import { useEffect, useMemo, useState } from 'react';
 
 const CreateModal = () => {
   const mdScreen = useMediaQuery('(min-width: 768px)');
   const dispatch = useDispatch();
   const open = useSelector((state) => state.admin.createModal);
   const handleClose = () => dispatch(createModalToggle());
+  const [exitErr, setExitErr] = useState(false)
+
 
   const style = {
     position: 'absolute',
@@ -30,9 +31,18 @@ const CreateModal = () => {
     p: 4,
   };
 
-  const handleChange = (newValue) => {
-    console.log(newValue.toISOString());
-    };
+  const { values, errors, touched, handleChange, handleSubmit, handleBlur, setFieldValue, setErrors } = useFormik({
+    initialValues: {
+        licensePlate: "",
+        entryTime: "",
+        exitTime: "",
+    },
+    validationSchema: vehicleSchema,
+    onSubmit: async (values) => {
+        if(exitErr) return;
+        console.log(values);
+    }
+  });
 
   return (
     <div>
@@ -56,17 +66,46 @@ const CreateModal = () => {
                         Add Vehicle
                     </h3>
                 </div>
-                <form action="#">
+                <form onSubmit={handleSubmit}>
                     <div>
                         <div>
-                            <TextField id="filled-basic" label="License Plate" variant="filled" fullWidth />
+                            <TextField
+                                error={errors.licensePlate && touched.licensePlate}
+                                helperText={errors.licensePlate && touched.licensePlate ? errors.licensePlate : null}
+                                label="License Plate"
+                                variant="filled"
+                                name='licensePlate'
+                                value={values.licensePlate}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                fullWidth
+                            />
                         </div>
-                        <div className='flex flex-col md:flex-row gap-5 my-5 justify-between'>
+                        <div className='flex flex-col md:flex-row gap-5 mt-5 justify-between flex-1'>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DateTimePicker label="Entry Date and Time" onChange={handleChange} />
-                                <DateTimePicker label="Exit Date and Time" />   
+                                <DateTimePicker
+                                    slotProps={{
+                                        textField: {
+                                            error: errors.entryTime && touched.entryTime,
+                                            helperText: errors.entryTime && touched.entryTime ? errors.entryTime : null,
+                                        },
+                                    }}
+                                    label="Entry Date and Time"
+                                    name='entryTime'
+                                    onChange={(value) => { setFieldValue('entryTime', value.toISOString()) }}
+                                    onBlur={handleBlur}
+                                />
+                                <DateTimePicker
+                                    onError={(newError) => newError ? setExitErr(true) : setExitErr(false)}
+                                    minDateTime={dayjs(values.entryTime)}
+                                    label="Exit Date and Time"
+                                    name='exitTime'
+                                    onChange={(value) => { setFieldValue('exitTime', value.toISOString()) }}
+                                    onBlur={handleBlur}
+                                />               
                             </LocalizationProvider>
                         </div>
+                        <p className='text-gray-700 text-sm mb-5'>* Leave the exit date feild empty if the vehicle still in the garage</p>
                     </div>
                     <Button variant="contained" type='submit' sx={{float: 'right'}}>Add Vehicle</Button>
                 </form>

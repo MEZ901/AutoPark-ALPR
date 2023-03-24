@@ -32,3 +32,15 @@ export const loginSchema = yup.object().shape({
         .string()
         .required("Password is required")
 });
+
+export const vehicleSchema = yup.object().shape({
+    licensePlate: yup
+        .string()
+        .required("Licence plate is required"),
+    entryTime: yup
+        .string()
+        .required("Entry time is required"),
+    exitTime: yup
+        .string()
+        .nullable(),
+});
