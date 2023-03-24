@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button, Box, Backdrop, Modal, Fade, TextField } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -8,15 +9,16 @@ import { useFormik } from 'formik';
 import dayjs from 'dayjs';
 import { vehicleSchema } from '../../schemas';
 import { createModalToggle } from '.';
-import { useEffect, useMemo, useState } from 'react';
+import { getDoc, doc, collection, addDoc } from "firebase/firestore";
+import { db } from '../../config/firebase';
 
 const CreateModal = () => {
   const mdScreen = useMediaQuery('(min-width: 768px)');
   const dispatch = useDispatch();
   const open = useSelector((state) => state.admin.createModal);
-  const handleClose = () => dispatch(createModalToggle());
   const [exitErr, setExitErr] = useState(false)
-
+  const handleClose = () => dispatch(createModalToggle());
+  const vehicleCollectionRef = collection(db, "Vehicles");
 
   const style = {
     position: 'absolute',
@@ -31,7 +33,7 @@ const CreateModal = () => {
     p: 4,
   };
 
-  const { values, errors, touched, handleChange, handleSubmit, handleBlur, setFieldValue, setErrors } = useFormik({
+  const { values, errors, touched, handleChange, handleSubmit, handleBlur, setFieldValue } = useFormik({
     initialValues: {
         licensePlate: "",
         entryTime: "",

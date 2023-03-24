@@ -2,21 +2,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { setAllVehicles, setCurrentVehicles, setVehicleLog } from "./vehiclesSlice";
 import { db } from "../../config/firebase";
-
-
-const parseDate = (date) => (
-  date
-  .split("T")
-  .shift()
-  .split("-")
-  .reverse()
-  .join("/") +
-  " - " +
-  date
-  .split("T")
-  .pop()
-  .slice(0, -1)
-);
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
   
 const getData = async (type) => {
   const { licensePlate } = useSelector((state) => state.auth.user);
@@ -41,9 +29,9 @@ const getData = async (type) => {
       {
         id: index + 1,
         licensePlate: vehicle.licensePlate,
-        entryTime: parseDate(vehicle.timeIn),
+        entryTime: dayjs.utc(vehicle.timeIn).format('MMMM D, YYYY h:mm A'),
         exitTime: type != 'current' && vehicle.timeOut
-          ? parseDate(vehicle.timeOut)
+          ? dayjs.utc(vehicle.timeOut).format('MMMM D, YYYY h:mm A')
           : "Still in the garage",
       }
     ));
