@@ -11,7 +11,7 @@ import { vehicleSchema } from '../../schemas';
 import { createModalToggle } from '.';
 import { collection, addDoc } from "firebase/firestore";
 import { db } from '../../config/firebase';
-import { getData } from '../vehicles'
+import { getData } from '../vehicles';
 
 const CreateModal = () => {
   const mdScreen = useMediaQuery('(min-width: 768px)');

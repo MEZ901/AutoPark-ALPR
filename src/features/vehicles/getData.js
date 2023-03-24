@@ -3,6 +3,7 @@ import { setAllVehicles, setCurrentVehicles, setVehicleLog } from "./vehiclesSli
 import { db } from "../../config/firebase";
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { useId } from "react";
 dayjs.extend(utc);
   
 const getData = (licensePlate, dispatch) => {
@@ -24,10 +25,11 @@ const getData = (licensePlate, dispatch) => {
           break;
       }
       const vehiclesSnapshot = await getDocs(q);
-      const vehiclesList = vehiclesSnapshot.docs.map((doc) => doc.data());
+      const vehiclesList = vehiclesSnapshot.docs.map((doc) => ({ ...doc.data(), uid: doc.id }));
       const FilteredVehicles = vehiclesList.map((vehicle, index) => (
         {
           id: index + 1,
+          uid: vehicle.uid,
           licensePlate: vehicle.licensePlate,
           entryTime: dayjs.utc(vehicle.timeIn).format('MMMM D, YYYY h:mm A'),
           exitTime: type != 'current' && vehicle.timeOut

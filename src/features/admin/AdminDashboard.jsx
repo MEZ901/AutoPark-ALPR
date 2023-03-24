@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import { AdminTable } from "../../components/tables";
-import { CreateModal, createModalToggle } from '.';
+import { CreateModal, createModalToggle, DeleteConfirm } from '.';
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
@@ -10,6 +10,7 @@ const AdminDashboard = () => {
   return (
     <div>
       <CreateModal />
+      <DeleteConfirm />
       <div className="w-full text-right my-5">
         <Button variant="contained" onClick={() => dispatch(createModalToggle())}>Add Vehicle</Button>
       </div>
