@@ -66,56 +66,56 @@ const CreateModal = () => {
         }}
       >
         <Fade in={open}>
-            <Box sx={style}>
-                <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5">
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      Add Vehicle
-                    </h3>
+          <Box sx={style}>
+            <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5">
+              <h3 className="text-lg font-semibold text-gray-900">
+                Add Vehicle
+              </h3>
+            </div>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <div>
+                    <TextField
+                        error={errors.licensePlate && touched.licensePlate}
+                        helperText={errors.licensePlate && touched.licensePlate ? errors.licensePlate : null}
+                        label="License Plate"
+                        variant="filled"
+                        name='licensePlate'
+                        value={values.licensePlate}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        fullWidth
+                    />
                 </div>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <div>
-                            <TextField
-                                error={errors.licensePlate && touched.licensePlate}
-                                helperText={errors.licensePlate && touched.licensePlate ? errors.licensePlate : null}
-                                label="License Plate"
-                                variant="filled"
-                                name='licensePlate'
-                                value={values.licensePlate}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                fullWidth
-                            />
-                        </div>
-                        <div className='flex flex-col md:flex-row gap-5 mt-5 justify-between flex-1'>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DateTimePicker
-                                    slotProps={{
-                                        textField: {
-                                            error: errors.timeIn && touched.timeIn,
-                                            helperText: errors.timeIn && touched.timeIn ? errors.timeIn : null,
-                                        },
-                                    }}
-                                    label="Entry Date and Time"
-                                    name='timeIn'
-                                    onChange={(value) => { setFieldValue('timeIn', value.toISOString()) }}
-                                    onBlur={handleBlur}
-                                />
-                                <DateTimePicker
-                                    onError={(newError) => newError ? setExitErr(true) : setExitErr(false)}
-                                    minDateTime={dayjs(values.timeIn)}
-                                    label="Exit Date and Time"
-                                    name='timeOut'
-                                    onChange={(value) => { setFieldValue('timeOut', value.toISOString()) }}
-                                    onBlur={handleBlur}
-                                />               
-                            </LocalizationProvider>
-                        </div>
-                        <p className='text-gray-700 text-sm mb-5'>* Leave the exit date feild empty if the vehicle still in the garage</p>
-                    </div>
-                    <Button variant="contained" type='submit' sx={{float: 'right'}}>Add Vehicle</Button>
-                </form>
-            </Box>
+                <div className='flex flex-col md:flex-row gap-5 mt-5 justify-between flex-1'>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateTimePicker
+                      slotProps={{
+                          textField: {
+                              error: errors.timeIn && touched.timeIn,
+                              helperText: errors.timeIn && touched.timeIn ? errors.timeIn : null,
+                          },
+                      }}
+                      label="Entry Date and Time"
+                      name='timeIn'
+                      onChange={(value) => { setFieldValue('timeIn', value.toISOString()) }}
+                      onBlur={handleBlur}
+                    />
+                    <DateTimePicker
+                      onError={(newError) => newError ? setExitErr(true) : setExitErr(false)}
+                      minDateTime={dayjs(values.timeIn)}
+                      label="Exit Date and Time"
+                      name='timeOut'
+                      onChange={(value) => { setFieldValue('timeOut', value.toISOString()) }}
+                      onBlur={handleBlur}
+                    />               
+                  </LocalizationProvider>
+                </div>
+                <p className='text-gray-700 text-sm mb-5'>* Leave the exit date feild empty if the vehicle still in the garage</p>
+              </div>
+              <Button variant="contained" type='submit' sx={{float: 'right'}}>Add Vehicle</Button>
+            </form>
+          </Box>
         </Fade>
       </Modal>
     </div>
