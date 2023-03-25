@@ -1,6 +1,6 @@
-import { parking } from "../../assets";
-import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+import { parking } from "../../assets";
 
 const Hero = () => {
   const navigate = useNavigate();

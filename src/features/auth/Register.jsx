@@ -1,21 +1,28 @@
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import GoogleIcon from '@mui/icons-material/Google';
 import Divider from '@mui/material/Divider';    
 import TextField from '@mui/material/TextField';
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { setDoc, doc, getDoc } from "firebase/firestore";
-import { registerSchema } from "../../schemas";
 import { auth, db, googleProvider } from "../../config/firebase";
+import { registerSchema } from "../../schemas";
 import { login } from "./authSlice";
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleSubmit,
+    handleBlur
+  } = useFormik({
     initialValues: {
         username: "",
         email: "",

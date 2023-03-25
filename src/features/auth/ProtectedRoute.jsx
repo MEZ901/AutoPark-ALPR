@@ -1,26 +1,32 @@
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const ProtectedRoute = ({ type, children }) => {
+const AuthenticationTypes = {
+  AUTH: 'auth',
+  GUEST: 'guest',
+  ADMIN: 'admin'
+};
+
+const ProtectedRoute = ({ authenticationType, children }) => {
   const user = useSelector(state => state.auth.user); 
-  switch (type) {
-    case "auth":
+  switch (authenticationType) {
+    case AuthenticationTypes.AUTH:
       return user ? (
         children
       ) : (
         <Navigate to="/login" replace />
       );
-    case "guest":
+    case AuthenticationTypes.GUEST:
       return !user ? (
         children
       ) : (
         <Navigate to="/home" replace />
       );
-    case "admin":
+    case AuthenticationTypes.ADMIN:
       return user && user.role === "admin" ? (
         children
       ) : (
-        <Navigate to="/home" replace />
+        <Navigate to="/unauthorized" replace />
       );
     default:
       return null;

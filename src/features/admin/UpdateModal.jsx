@@ -24,16 +24,29 @@ const UpdateModal = () => {
     if(id != null) {
       const vehicleRef = doc(db, "vehicles", id);
       const getVehicle =  async () => {
-        const docSnap = await getDoc(vehicleRef);
-        setFieldValue('licensePlate', docSnap.data().licensePlate);
-        setFieldValue('timeIn', docSnap.data().timeIn);
-        setFieldValue('timeOut', docSnap.data().timeOut);
+        try {
+            const docSnap = await getDoc(vehicleRef);
+            setFieldValue('licensePlate', docSnap?.data()?.licensePlate);
+            setFieldValue('timeIn', docSnap?.data()?.timeIn);
+            setFieldValue('timeOut', docSnap?.data()?.timeOut); 
+        } catch (error) {
+            console.log('Error getting vehicle: ', error);
+        }
+        
       }
       getVehicle();
     }
   }, [id]);
 
-  const { values, errors, touched, handleChange, handleSubmit, handleBlur, setFieldValue } = useFormik({
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    setFieldValue
+} = useFormik({
     initialValues: {
         licensePlate: "",
         timeIn: "",
@@ -42,10 +55,15 @@ const UpdateModal = () => {
     validationSchema: updateVehicleSchema,
     onSubmit: async (values) => {
       if(exitErr) return;
-      const vehicleRef = doc(db, "vehicles", id);
-      await updateDoc(vehicleRef, values)
-      getData(licensePlate, dispatch);
-      handleClose();
+      try {
+        const vehicleRef = doc(db, "vehicles", id);
+        await updateDoc(vehicleRef, values)
+        getData(licensePlate, dispatch);
+        handleClose();
+      } catch (error) {
+        console.log('Error updating vehicle: ', error);
+      }
+      
     }
   });
   return (

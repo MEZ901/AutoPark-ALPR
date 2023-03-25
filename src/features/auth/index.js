@@ -3,4 +3,11 @@ import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import authReducer, { login, logout } from "./authSlice";
 
-export { Login, Register, ProtectedRoute, authReducer, login, logout };
+export {
+    Login,
+    Register,
+    ProtectedRoute,
+    authReducer,
+    login,
+    logout
+};

@@ -17,21 +17,13 @@ const adminSlice = createSlice({
         createModalToggle: (state) => {
             state.createModal = !state.createModal;
         },
-        deleteConfirmToggle: (state, payload) => {
+        deleteConfirmToggle: (state, { payload }) => {
             state.deleteConfirm.show = !state.deleteConfirm.show;
-            payload.payload ? (
-                state.deleteConfirm.id = payload.payload 
-            ) : (
-                state.deleteConfirm.id = null
-            ); 
+            state.deleteConfirm.id = payload || null; 
         },
-        updateModalToggle: (state, payload) => {
+        updateModalToggle: (state, { payload }) => {
             state.updateModal.show = !state.updateModal.show;
-            payload.payload ? (
-                state.updateModal.id = payload.payload 
-            ) : (
-                state.updateModal.id = null
-            ); 
+            state.updateModal.id = payload || null; 
         },
     }
 });

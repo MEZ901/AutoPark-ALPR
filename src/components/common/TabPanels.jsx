@@ -8,21 +8,12 @@ import { useSelector } from 'react-redux';
 const TabPanels = () => {
   const { role } = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
-  let initialVal;
-  switch (window.location.pathname) {
-    case '/home':
-      initialVal = 1;
-      break;
-    case '/home/log':
-      initialVal = 2;
-      break;
-    case '/home/dashboard':
-      initialVal = 3;
-      break;
-    default:
-      initialVal = 1;
-      break;
-  }
+  const tabValues = {
+    '/home': 1,
+    '/home/log': 2,
+    '/home/dashboard': 3,
+  };
+  const initialVal = tabValues[window.location.pathname] || 1;
   const [value, setValue] = useState(initialVal);
 
   const handleChange = (event, newValue) => {
@@ -36,6 +27,9 @@ const TabPanels = () => {
         break;
       case 3:
         navigate('/home/dashboard');
+        break;
+      default:
+        console.log('Error: No tab selected')
         break;
     }
   };

@@ -7,18 +7,19 @@ import {
 import {
     LandingPage,
     ErrorPage,
-    NotFound
+    NotFound,
+    Unauthorized,
 } from "./views";
 
 import {
     Login,
     Register,
-    ProtectedRoute
+    ProtectedRoute,
 } from "./features/auth";
 
 import {
     CurrentVehicles,
-    VehicleLog
+    VehicleLog,
 } from "./features/vehicles";
 
 import { AdminDashboard } from "./features/admin";
@@ -35,7 +36,7 @@ const router = createBrowserRouter(
             <Route
                 index
                 element={
-                    <ProtectedRoute type="guest">
+                    <ProtectedRoute authenticationType="guest">
                         <LandingPage />
                     </ProtectedRoute>
                 }
@@ -43,7 +44,7 @@ const router = createBrowserRouter(
             <Route
                 path="register"
                 element={
-                    <ProtectedRoute type="guest">
+                    <ProtectedRoute authenticationType="guest">
                         <Register />
                     </ProtectedRoute>
                 }
@@ -51,7 +52,7 @@ const router = createBrowserRouter(
             <Route
                 path="login"
                 element={
-                    <ProtectedRoute type="guest">
+                    <ProtectedRoute authenticationType="guest">
                         <Login />
                     </ProtectedRoute>
                 }
@@ -60,7 +61,7 @@ const router = createBrowserRouter(
             <Route
                 path="home"
                 element={
-                    <ProtectedRoute type="auth">
+                    <ProtectedRoute authenticationType="auth">
                         <HomeLayout />
                     </ProtectedRoute>
                 }
@@ -76,12 +77,17 @@ const router = createBrowserRouter(
                 <Route
                     path="dashboard"
                     element={
-                        <ProtectedRoute type="admin">
+                        <ProtectedRoute authenticationType="admin">
                             <AdminDashboard />
                         </ProtectedRoute>
                     }
                 />
             </Route>
+            
+            <Route
+                path="unauthorized"
+                element={<Unauthorized />}
+            />
             
             <Route
                 path="*"

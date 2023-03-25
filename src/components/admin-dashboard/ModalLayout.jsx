@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 const ModalLayout = ({show, title, reducer, children}) => {
   const dispatch = useDispatch();
   const handleClose = () => dispatch(reducer());
-  const mdScreen = useMediaQuery('(min-width: 768px)');
+  const mdScreen = useMediaQuery('(min-width: 768px)', { noSsr: true });
 
   const style = {
     position: 'absolute',

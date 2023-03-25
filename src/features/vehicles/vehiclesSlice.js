@@ -8,14 +8,14 @@ export const vehiclesSlice = createSlice({
         vehicleLog: [],
     },
     reducers: {
-        setAllVehicles: (state, payload) => {
-            state.allVehicles = payload.payload;
+        setAllVehicles: (state, { payload }) => {
+            state.allVehicles = payload;
         },
-        setCurrentVehicles: (state, payload) => {
-            state.currentVehicles = payload.payload;
+        setCurrentVehicles: (state, { payload }) => {
+            state.currentVehicles = payload;
         },
-        setVehicleLog: (state, payload) => {
-            state.vehicleLog = payload.payload;
+        setVehicleLog: (state, { payload }) => {
+            state.vehicleLog = payload;
         },
     },
 });

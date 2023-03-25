@@ -1,10 +1,10 @@
-import FeatureCard from './FeatureCard';
 import SafetyCheckIcon from '@mui/icons-material/SafetyCheck';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import HistoryIcon from '@mui/icons-material/History';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import FeatureCard from './FeatureCard';
 
 const Features = () => {
   const features = [

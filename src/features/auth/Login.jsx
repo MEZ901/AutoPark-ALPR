@@ -1,21 +1,28 @@
+import { useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import GoogleIcon from '@mui/icons-material/Google';
 import Divider from '@mui/material/Divider';    
 import { Link, useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { getDoc, doc, setDoc } from "firebase/firestore";
-import { loginSchema } from "../../schemas";
 import { auth, db, googleProvider } from "../../config/firebase";
+import { loginSchema } from "../../schemas";
 import { login } from "./authSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleSubmit,
+    handleBlur
+} = useFormik({
     initialValues: {
         email: "",
         password: ""
@@ -47,26 +54,31 @@ const Login = () => {
   });
  
   const signInWithGoogle = async () => {
-    const userCredentials = await signInWithPopup(auth, googleProvider);
-    const { uid } = userCredentials.user;
-    const docRef = doc(db, "users", uid);
-    const user = await getDoc(docRef);
-    if (user.exists()) {
-        dispatch(login({ uid, ...user.data() }));
-        localStorage.setItem("user", JSON.stringify({ uid, ...user.data() }));
-        navigate("/home");
-    } else {
-        const user = {
-            username: userCredentials.user.displayName,
-            email: userCredentials.user.email,
-            licensePlate: null,
-            role: "user"
+    try {
+        const userCredentials = await signInWithPopup(auth, googleProvider);
+        const { uid } = userCredentials.user;
+        const docRef = doc(db, "users", uid);
+        const user = await getDoc(docRef);
+        if (user.exists()) {
+            dispatch(login({ uid, ...user.data() }));
+            localStorage.setItem("user", JSON.stringify({ uid, ...user.data() }));
+            navigate("/home");
+        } else {
+            const user = {
+                username: userCredentials.user.displayName,
+                email: userCredentials.user.email,
+                licensePlate: null,
+                role: "user"
+            }
+            await setDoc(doc(db, "users", uid), user);
+            dispatch(login({ uid, ...user }));
+            localStorage.setItem("user", JSON.stringify({ uid, ...user }));
+            navigate("/home");
         }
-        await setDoc(doc(db, "users", uid), user);
-        dispatch(login({ uid, ...user }));
-        localStorage.setItem("user", JSON.stringify({ uid, ...user }));
-        navigate("/home");
+    } catch (error) {
+        console.log(`Error ${error.code}: ${error.message}`);
     }
+    
   };
 
   return (

@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -10,11 +13,8 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { logo } from "../../assets";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
 import { signOut } from "firebase/auth";
+import { logo } from "../../assets";
 import { auth } from "../../config/firebase";
 import { logout } from "../../features/auth";
 

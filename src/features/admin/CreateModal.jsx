@@ -21,7 +21,15 @@ const CreateModal = () => {
   const handleClose = () => dispatch(createModalToggle());
   const vehicleCollectionRef = collection(db, "vehicles");
 
-  const { values, errors, touched, handleChange, handleSubmit, handleBlur, setFieldValue } = useFormik({
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    setFieldValue
+  } = useFormik({
     initialValues: {
         licensePlate: "",
         timeIn: "",
@@ -30,10 +38,15 @@ const CreateModal = () => {
     validationSchema: addVehicleSchema,
     onSubmit: async (values, { resetForm }) => {
       if(exitErr) return;
-      await addDoc(vehicleCollectionRef, values);
-      getData(licensePlate, dispatch);
-      handleClose();
-      resetForm();
+      try {
+        await addDoc(vehicleCollectionRef, values);
+        getData(licensePlate, dispatch);
+        handleClose();
+        resetForm();
+      } catch (error) {
+        console.log('Error adding vehicle: ', error);
+      }
+      
     }
   });
 

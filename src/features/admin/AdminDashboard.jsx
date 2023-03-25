@@ -5,7 +5,7 @@ import { CreateModal, createModalToggle, DeleteConfirm, UpdateModal } from '.';
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
-  const allVehiclesList = useSelector((state) => state.vehicles.allVehicles);
+  const { allVehicles } = useSelector((state) => state.vehicles);
 
   return (
     <div>
@@ -15,7 +15,7 @@ const AdminDashboard = () => {
       <div className="w-full text-right my-5">
         <Button variant="contained" onClick={() => dispatch(createModalToggle())}>Add Vehicle</Button>
       </div>
-      <AdminTable vehicles={allVehiclesList} />
+      <AdminTable vehicles={allVehicles} />
     </div>
   )
 }

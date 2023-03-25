@@ -1,9 +1,10 @@
 import { getDocs, collection, query, where } from "firebase/firestore";
-import { setAllVehicles, setCurrentVehicles, setVehicleLog } from "./vehiclesSlice";
-import { db } from "../../config/firebase";
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from "dayjs/plugin/timezone";
+import { setAllVehicles, setCurrentVehicles, setVehicleLog } from "./vehiclesSlice";
+import { db } from "../../config/firebase";
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
   

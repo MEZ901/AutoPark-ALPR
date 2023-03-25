@@ -13,11 +13,16 @@ const DeleteConfirm = () => {
   const { show, id } = useSelector((state) => state.admin.deleteConfirm);
   const handleClose = () => dispatch(deleteConfirmToggle());
   
-  const handleConfirm = () => {
-    const vehicleDocRef = doc(db, "vehicles", id);
-    deleteDoc(vehicleDocRef);
-    getData(licensePlate, dispatch);
-    handleClose();
+  const handleConfirm = async () => {
+    try {
+      const vehicleDocRef = doc(db, "vehicles", id);
+      await deleteDoc(vehicleDocRef);
+      getData(licensePlate, dispatch);
+      handleClose();
+    } catch (error) {
+      console.log('Error deleting vehicle: ', error)
+    }
+    
   }
 
   return (

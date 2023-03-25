@@ -1,7 +1,7 @@
+import { useDispatch } from 'react-redux';
 import { DataGrid, GridColumnMenu } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import { deleteConfirmToggle, updateModalToggle } from '../../features/admin';
-import { useDispatch } from 'react-redux';
 
 
 const CustomColumnMenu = (props) => {

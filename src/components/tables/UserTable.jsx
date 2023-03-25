@@ -17,12 +17,12 @@ const columns = [
   { field: 'entryTime', headerName: 'Entry Time', flex: 0.5, minWidth: 250 },
 ];
 
-const UserTable = ({ vehicles, col}) => {
+const UserTable = ({ vehicles, additionalColumn}) => {
   return (
     <div style={{ height: 400, width: '100%' }}>
       <DataGrid
         rows={vehicles}
-        columns={col ? [...columns, col] : columns}
+        columns={additionalColumn ? [...columns, additionalColumn] : columns}
         slots={{ columnMenu: CustomColumnMenu }}
       />
     </div>
