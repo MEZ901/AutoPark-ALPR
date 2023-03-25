@@ -6,6 +6,7 @@ export const vehiclesSlice = createSlice({
         allVehicles: [],
         currentVehicles: [],
         vehicleLog: [],
+        numberOfVehiclesInGarage: 0,
     },
     reducers: {
         setAllVehicles: (state, { payload }) => {
@@ -13,6 +14,7 @@ export const vehiclesSlice = createSlice({
         },
         setCurrentVehicles: (state, { payload }) => {
             state.currentVehicles = payload;
+            state.numberOfVehiclesInGarage = payload.length;
         },
         setVehicleLog: (state, { payload }) => {
             state.vehicleLog = payload;

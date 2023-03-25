@@ -2,6 +2,7 @@ import vehiclesReducer, { setAllVehicles, setCurrentVehicles, setVehicleLog } fr
 import getData from "./getData";
 import CurrentVehicles from "./CurrentVehicles";
 import VehicleLog from "./VehicleLog";
+import Stats from "./Stats";
 
 export {
     vehiclesReducer,
@@ -11,4 +12,5 @@ export {
     getData,
     CurrentVehicles,
     VehicleLog,
+    Stats,
 };

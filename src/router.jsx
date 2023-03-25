@@ -23,6 +23,7 @@ import {
 } from "./features/vehicles";
 
 import { AdminDashboard } from "./features/admin";
+import { Stats } from "./features/vehicles";
 import RootLayout from "./layouts/RootLayout";
 import HomeLayout from "./layouts/HomeLayout";
 
@@ -73,6 +74,10 @@ const router = createBrowserRouter(
                 <Route
                     path="log"
                     element={<VehicleLog />}
+                />
+                <Route
+                    path="stats"
+                    element={<Stats />}
                 />
                 <Route
                     path="dashboard"

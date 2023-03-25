@@ -11,7 +11,8 @@ const TabPanels = () => {
   const tabValues = {
     '/home': 1,
     '/home/log': 2,
-    '/home/dashboard': 3,
+    '/home/stats': 3,
+    '/home/dashboard': 4,
   };
   const initialVal = tabValues[window.location.pathname] || 1;
   const [value, setValue] = useState(initialVal);
@@ -26,6 +27,9 @@ const TabPanels = () => {
         navigate('/home/log');
         break;
       case 3:
+        navigate('/home/stats');
+        break;
+      case 4:
         navigate('/home/dashboard');
         break;
       default:
@@ -40,7 +44,8 @@ const TabPanels = () => {
         <Tabs value={value} onChange={handleChange} variant="scrollable">
           <Tab value={1} label="The current vehicles in the garage" />
           <Tab value={2} label="My log" />
-          {role === 'admin' && <Tab value={3} label="Dashboard" />}
+          <Tab value={3} label="Stats" />
+          {role === 'admin' && <Tab value={4} label="Dashboard" />}
         </Tabs>
       </Box>
     </Box>
