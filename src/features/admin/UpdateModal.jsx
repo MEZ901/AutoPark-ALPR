@@ -1,30 +1,33 @@
-import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { TextField, Button } from "@mui/material";
-import { ModalLayout } from "../../components/admin-dashboard";
-import { updateModalToggle } from ".";
-
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { useFormik } from 'formik';
 import dayjs from 'dayjs';
-import { collection, getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from '../../config/firebase';
+import { ModalLayout } from "../../components/admin-dashboard";
+import { updateModalToggle } from ".";
+import { updateVehicleSchema } from "../../schemas";
 import { getData } from '../vehicles';
 
-
 const UpdateModal = () => {
+  const dispatch = useDispatch();
   const { show, id } = useSelector((state) => state.admin.updateModal);
-  const [vehicle, setVehicle] = useState(null);
+  const { licensePlate } = useSelector((state) => state.auth.user);
   const [exitErr, setExitErr] = useState(false);
+  const handleClose = () => dispatch(updateModalToggle());
   
   useEffect(() => {
     if(id != null) {
       const vehicleRef = doc(db, "vehicles", id);
       const getVehicle =  async () => {
         const docSnap = await getDoc(vehicleRef);
-        setVehicle(docSnap.data());
+        setFieldValue('licensePlate', docSnap.data().licensePlate);
+        setFieldValue('timeIn', docSnap.data().timeIn);
+        setFieldValue('timeOut', docSnap.data().timeOut);
       }
       getVehicle();
     }
@@ -36,10 +39,13 @@ const UpdateModal = () => {
         timeIn: "",
         timeOut: null,
     },
-    // validationSchema: vehicleSchema,
+    validationSchema: updateVehicleSchema,
     onSubmit: async (values) => {
       if(exitErr) return;
-      console.log(values)
+      const vehicleRef = doc(db, "vehicles", id);
+      await updateDoc(vehicleRef, values)
+      getData(licensePlate, dispatch);
+      handleClose();
     }
   });
   return (
@@ -54,7 +60,7 @@ const UpdateModal = () => {
                             label="License Plate"
                             variant="filled"
                             name='licensePlate'
-                            value={vehicle ? vehicle.licensePlate : ''}
+                            value={values.licensePlate}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             fullWidth
@@ -63,21 +69,22 @@ const UpdateModal = () => {
                     <div className='flex flex-col md:flex-row gap-5 mt-5 justify-between flex-1'>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateTimePicker
-                                value={dayjs(vehicle?.timeIn)}
+                                value={dayjs(values.timeIn)}
                                 slotProps={{
                                     textField: {
                                     error: errors.timeIn && touched.timeIn,
                                     helperText: errors.timeIn && touched.timeIn ? errors.timeIn : null,
                                     },
                                 }}
+                                maxDateTime={dayjs()}
                                 label="Entry Date and Time"
                                 name='timeIn'
                                 onChange={(value) => { setFieldValue('timeIn', value.toISOString()) }}
                                 onBlur={handleBlur}
                             />
                             <DateTimePicker
-                                value={vehicle?.timeOut ? dayjs(vehicle?.timeOut) : null}
-                                onError={(newError) => newError ? setExitErr(true) : setExitErr(false)}
+                                value={dayjs(values.timeOut)}
+                                onError={(newError) => newError != 'invalidDate' && newError != null ? setExitErr(true) : setExitErr(false)}
                                 minDateTime={dayjs(values.timeIn)}
                                 maxDateTime={dayjs()}
                                 label="Exit Date and Time"

@@ -44,3 +44,15 @@ export const addVehicleSchema = yup.object().shape({
         .string()
         .nullable(),
 });
+
+export const updateVehicleSchema = yup.object().shape({
+    licensePlate: yup
+        .string()
+        .required("Licence plate is required"),
+    timeIn: yup
+        .string()
+        .required("Entry time is required"),
+    timeOut: yup
+        .string()
+        .nullable(),
+});

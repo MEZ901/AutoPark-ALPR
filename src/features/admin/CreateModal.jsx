@@ -66,6 +66,7 @@ const CreateModal = () => {
                   }}
                   label="Entry Date and Time"
                   name='timeIn'
+                  maxDateTime={dayjs()}
                   onChange={(value) => { setFieldValue('timeIn', value.toISOString()) }}
                   onBlur={handleBlur}
                 />
