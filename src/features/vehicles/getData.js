@@ -3,8 +3,9 @@ import { setAllVehicles, setCurrentVehicles, setVehicleLog } from "./vehiclesSli
 import { db } from "../../config/firebase";
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { useId } from "react";
+import timezone from "dayjs/plugin/timezone";
 dayjs.extend(utc);
+dayjs.extend(timezone);
   
 const getData = (licensePlate, dispatch) => {
   const vehiclesRef = collection(db, "vehicles");
@@ -31,9 +32,9 @@ const getData = (licensePlate, dispatch) => {
           id: index + 1,
           uid: vehicle.uid,
           licensePlate: vehicle.licensePlate,
-          entryTime: dayjs.utc(vehicle.timeIn).format('MMMM D, YYYY h:mm A'),
+          entryTime: dayjs.utc(vehicle.timeIn).tz(dayjs.tz.guess()).format('MMMM D, YYYY h:mm A'),
           exitTime: type != 'current' && vehicle.timeOut
-            ? dayjs.utc(vehicle.timeOut).format('MMMM D, YYYY h:mm A')
+            ? dayjs.utc(vehicle.timeOut).tz(dayjs.tz.guess()).format('MMMM D, YYYY h:mm A')
             : "Still in the garage",
         }
       ));

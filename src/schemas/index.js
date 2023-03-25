@@ -33,7 +33,7 @@ export const loginSchema = yup.object().shape({
         .required("Password is required")
 });
 
-export const vehicleSchema = yup.object().shape({
+export const addVehicleSchema = yup.object().shape({
     licensePlate: yup
         .string()
         .required("Licence plate is required"),

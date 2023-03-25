@@ -1,6 +1,6 @@
 import { DataGrid, GridColumnMenu } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
-import { deleteConfirmToggle } from '../../features/admin';
+import { deleteConfirmToggle, updateModalToggle } from '../../features/admin';
 import { useDispatch } from 'react-redux';
 
 
@@ -26,7 +26,7 @@ const AdminTable = ({ vehicles, col }) => {
     { field: 'action', headerName: 'Action', minWidth: 200,
       renderCell: (params) => (
         <div className='flex flex-row justify-evenly w-full'>
-          <Button variant="outlined" color='warning' size="medium">Edit</Button>
+          <Button variant="outlined" color='warning' size="medium" onClick={() => dispatch(updateModalToggle(params.row.uid))}>Edit</Button>
           <Button variant="contained" color='error' size="medium" onClick={() => dispatch(deleteConfirmToggle(params.row.uid))}>Delete</Button>
         </div>
       )

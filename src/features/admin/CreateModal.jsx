@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 import dayjs from 'dayjs';
 import { collection, addDoc } from "firebase/firestore";
 import { db } from '../../config/firebase';
-import { vehicleSchema } from '../../schemas';
+import { addVehicleSchema } from '../../schemas';
 import { createModalToggle } from '.';
 import { getData } from '../vehicles';
 import { ModalLayout } from '../../components/admin-dashboard';
@@ -27,12 +27,13 @@ const CreateModal = () => {
         timeIn: "",
         timeOut: null,
     },
-    validationSchema: vehicleSchema,
-    onSubmit: async (values) => {
+    validationSchema: addVehicleSchema,
+    onSubmit: async (values, { resetForm }) => {
       if(exitErr) return;
       await addDoc(vehicleCollectionRef, values);
-      handleClose();
       getData(licensePlate, dispatch);
+      handleClose();
+      resetForm();
     }
   });
 

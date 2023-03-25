@@ -8,6 +8,10 @@ const adminSlice = createSlice({
             show: false,
             id: null,
         },
+        updateModal: {
+            show: false,
+            id: null,
+        },
     },
     reducers: {
         createModalToggle: (state) => {
@@ -21,9 +25,17 @@ const adminSlice = createSlice({
                 state.deleteConfirm.id = null
             ); 
         },
+        updateModalToggle: (state, payload) => {
+            state.updateModal.show = !state.updateModal.show;
+            payload.payload ? (
+                state.updateModal.id = payload.payload 
+            ) : (
+                state.updateModal.id = null
+            ); 
+        },
     }
 });
 
-export const { createModalToggle, deleteConfirmToggle } = adminSlice.actions;
+export const { createModalToggle, deleteConfirmToggle, updateModalToggle } = adminSlice.actions;
 
 export default adminSlice.reducer;
