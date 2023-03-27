@@ -14,7 +14,7 @@ Automatic License Plate Recognition based Parking Garage Management System
 This project was built with React and Firebase and requires the following:
 - Node.js (v14 or higher)
 - Firebase account and project setup
-- Firebase authentication and Firestore database enabled
+- Firebase authentication (with email and password & Google) and Firestore database enabled
 
 ## Installation
 To get started with the project, follow these steps:
@@ -40,7 +40,7 @@ or
 yarn dev
 ```
 5. Open the app in your browser at ``http://127.0.0.1:5173/``.
-6. Create admin account by creating normal account then go to firestore and change the ``role`` to ``admin``.
+6. Create admin account by creating normal account then go to Firestore and change the ``role`` to ``admin``.
 
 ## Usage
 
